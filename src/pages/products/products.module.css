@@ -1,0 +1,48 @@
+.product_container {
+    width:75%;
+   flex-wrap: wrap;
+   gap: 30px;
+   justify-content:flex-start;
+  flex-direction: row;
+  padding-left:3%;
+}
+
+.card_img {
+    width: 70%;
+    margin: 0 auto;
+    position: absolute;
+    top:30%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+}
+.price{
+  font-weight: 700;
+  color: rgba(21, 32, 63, 0.9);
+  font-size:1.5rem;
+}
+.input{
+  width: 25vw;
+
+}
+.input input{
+  font-size: 5rem;
+  padding:0.8rem;
+}
+.filterBox{
+  width:15vw;
+  height: 40vh;
+  background-color: rgba(102, 112, 248, 0.37);
+  position: fixed;
+  top:30vh;
+  left:7px;
+  border-radius:10px ;
+}
+.filter{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filter input {
+  width: 90%;
+}

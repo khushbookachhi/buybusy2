@@ -1,0 +1,47 @@
+.CardBody{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+.card_img {
+    width:60%;
+    margin: 0 auto;
+     position: absolute;
+    top:30%;
+    left: 50%; 
+     transform: translate3d(-50%,-50%,0); 
+}
+.btn2{
+    position: absolute;
+    bottom:5%;
+    left:50%;
+    width: 16rem;
+ transform: translateX(-50%);
+}
+.price{
+  font-weight: 700;
+  color: rgba(21, 32, 63, 0.9);
+  font-size:1.5rem;
+}
+.quantity{
+     position: absolute; 
+    bottom:0%;
+    right:6%;
+     margin-bottom: 3.8rem;
+}
+.quantity img{
+    width:25px;
+   transition:all .2s ease-in-out;
+  margin-bottom: 6px;
+}
+.quantity img:hover{
+    cursor: pointer;
+   transform: scale(1.2);
+}
+.quantity span{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.btnLength{
+    width:16rem;
+}
