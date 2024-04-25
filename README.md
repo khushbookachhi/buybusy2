@@ -1,7 +1,7 @@
 # BuyBusy2 React Shopping App
 
 ## User Authentication
-user signUp or signIn is handled by firebase authentication helps user to authenticate while performing any functionality
+. user signUp or signIn is handled by firebase authentication helps user to authenticate while performing any functionality.
 
 ## Available Scripts
 
