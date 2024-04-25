@@ -1,5 +1,5 @@
 import Spinner from 'react-spinner-material';
-
+//showing spinner while fetching data or page
 export default function Loader(){
     return(
         <>

@@ -6,15 +6,17 @@ import { fetchMyOrders, productSelector } from "../../redux/reducers/productsRed
 import { userSelector } from "../../redux/reducers/userReducers";
 
 function MyOrder(){
- const dispatch=useDispatch();
- const [loading,setLoading]=useState(true);
- const {userID}=useSelector(userSelector)
- const {orders}=useSelector(productSelector);
+    const dispatch=useDispatch(); // useDispatch hook to dispatch actions
+    const [loading,setLoading]=useState(true); // State variable to track the loading state
+    const {userID}=useSelector(userSelector); // Selector to get user ID from Redux store
+    const {orders}=useSelector(productSelector); // Selector to get orders from Redux store
 
+    // Effect to fetch user orders when component mounts
    useEffect(()=>{
     dispatch(fetchMyOrders(userID));
     // eslint-disable-next-line
    },[])
+    // Effect to handle loading state
    useEffect(()=>{
     if(loading){
         setTimeout(() => {
@@ -29,6 +31,7 @@ function MyOrder(){
         {!loading && <h2>Your Orders</h2>}
         {loading ?<Loader/>:
 <div className="container">
+    {/* fetch orders if orders exists */}
        {orders? orders.map((product,index)=>{
    return (<div className="container d-flex flex-column align-items-center my-2" key={index}>
  <p className="text-center fs-4 fw-bold text-dark-emphasis">Ordered On:- {product.orderDate}</p>
@@ -41,7 +44,7 @@ function MyOrder(){
 <th scope="col">Total Price</th>
 </tr>
 </thead>
-
+  {/* every cartItems in one order */}
    { product.cartItems.map((cartItem,index)=>{
    return  <tbody key={index}>
     <tr>

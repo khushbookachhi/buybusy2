@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import productsData from '../../data/products.json';
 import { arrayRemove, arrayUnion, deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../fireBaseInit';
-
+//initialize state for user slice
 const initialState={
     products:productsData,
     cartItems:[],
@@ -14,7 +14,7 @@ const initialState={
     purchase:false,
     loading:true
 }
-
+// async function to fetch cartitems from firestore
 export const fetchCartItems=createAsyncThunk("product/fetchCart",async(payload)=>{
     console.log("fetchCartItems is calling",payload);
     const docRef = doc(db, "cartItems", payload);
@@ -34,6 +34,7 @@ export const fetchCartItems=createAsyncThunk("product/fetchCart",async(payload)=
     }
   
 });
+// async function to fetch myOrders from firestore
 export const fetchMyOrders=createAsyncThunk("product/fetchOrders",async(payload)=>{
     console.log("fetchMyOrders is calling",payload);
     const docRef = doc(db, "myOrders", payload);
@@ -49,10 +50,10 @@ export const fetchMyOrders=createAsyncThunk("product/fetchOrders",async(payload)
             return ;
           }
     } catch (error) {
-        // return rejectWithValue(error.message);
         console.log(error);
     }
 })
+//async function to add items in cart 
 export const addToCart=createAsyncThunk("product/addCart",async(payload,{dispatch,rejectWithValue,getState})=>{
     const {product,userID,index}=payload;
     console.log("addToCart is calling ",userID);
@@ -97,6 +98,7 @@ export const addToCart=createAsyncThunk("product/addCart",async(payload,{dispatc
         return  rejectWithValue(error.message);
     }
 });
+//async function for removing product from cart
 export const removeFromCart=createAsyncThunk("product/removeCart",async(payload,{dispatch,rejectWithValue})=>{
     const {product,userID,index}=payload;
     const docRef = doc(db, 'cartItems', userID);
@@ -120,6 +122,7 @@ export const removeFromCart=createAsyncThunk("product/removeCart",async(payload,
         return  rejectWithValue(error.message);
     }
 });
+//async function to increase product quantity in cart items
 export const increaseQuantity=createAsyncThunk("product/incQuantity",async(payload,{getState,dispatch})=>{
     const {product,userID}=payload;
     let index= -1;
@@ -142,6 +145,7 @@ export const increaseQuantity=createAsyncThunk("product/incQuantity",async(paylo
     }
     
 })
+//async function to decrease product quantity in cart items
 export const decreaseQuantity=createAsyncThunk("product/decQuantity",async(payload,{getState,dispatch})=>{
     const {product,userID}=payload;
     let index= -1;
@@ -167,6 +171,7 @@ export const decreaseQuantity=createAsyncThunk("product/decQuantity",async(paylo
     }
     
 });
+//function to get current date after ordering
 function getOrderDate(){
     const d=new Date();
     let month=d.getMonth()+1;
@@ -174,6 +179,7 @@ function getOrderDate(){
     return d.getFullYear().toString()+"-"+(month<10?"0"+month.toString():month.toString())+"-"
     +(date<10?"0"+date.toString():date.toString());
 }
+//function to remove all cartitems from firestores
 async function removeAllCartItems(userID){
     const docRef = doc(db, 'cartItems', userID);
 
@@ -183,6 +189,7 @@ async function removeAllCartItems(userID){
     });
     
 }
+//async function to purchase product from cart
 export const purchaseProduct=createAsyncThunk("prdouct/purchase",async(payload,{rejectWithValue,dispatch})=>{
     const {cartItems,userID,totalPrice,navigate}=payload;
     const orderDate=getOrderDate();
@@ -215,6 +222,7 @@ export const purchaseProduct=createAsyncThunk("prdouct/purchase",async(payload,{
    
   
 })
+// Product slice creation
 const productsSlice=createSlice({
     name:'product',
     initialState,
@@ -239,7 +247,7 @@ const productsSlice=createSlice({
             state.products=filteredData;
             state.processing=new Array(state.products.length).fill(false) 
         },
-        handleSearch:(state,action)=>{
+        handleSearch:(state,action)=>{  //handle search in first page
          const targetValue=action.payload;
          console.log("targetValue ",targetValue);
          let filteredProducts ;
@@ -256,7 +264,7 @@ const productsSlice=createSlice({
             processing: new Array(filteredProducts.length).fill(false)
         }; 
         } ,
-        setProcess:(state,action)=>{
+        setProcess:(state,action)=>{   
         const {index,isBoolean}=action.payload;
         const newState=[...state.processing]; //new Array(products.length).fill(false)
         
@@ -359,9 +367,9 @@ const productsSlice=createSlice({
     
         }
 })
-
+// Exporting reducer and actions
 export const productsReducer=productsSlice.reducer;
 export const productActions=productsSlice.actions;
 
-//selector
+// Selector to retrieve product state from the Redux store
 export const productSelector=(state)=>state.productsReducer;

@@ -3,13 +3,15 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { auth } from "../../fireBaseInit";
 
 
-
+// object sets up the initial state for the user slice 
 const initialState={
+    // user ID retrieved from local storage or defaults to null
     userID:localStorage.getItem('user')||null,
     loading:false,
     errorMsg:null,
     successMsg:null
 }
+// Function to check the authentication state
 function checkAuthState(){
     console.log("checkAuthState is called");
     onAuthStateChanged(auth,(userInfo)=>{
@@ -23,6 +25,8 @@ function checkAuthState(){
     })
    
  }
+ // Async thunk functions for sign up, sign in, and sign out
+
 export const signUpAsync=createAsyncThunk("user/signUp",async(payload,{rejectWithValue})=>{
     try {
        
@@ -54,11 +58,12 @@ export const signOutAsync=createAsyncThunk("user/signOut",async(_,{rejectWithVal
     }
   
 })
+// User slice creation
 const userSlice=createSlice({
     name:'user',
     initialState,
     reducers:{
-        clearMsg:(state)=>{
+        clearMsg:(state)=>{ // Action to clear success and error messages
          state.successMsg=null;
          state.errorMsg=null;
         }
@@ -130,9 +135,9 @@ const userSlice=createSlice({
        })
     }
 })
-
+// Exporting reducer and actions
 export const userReducer=userSlice.reducer;
 export const actions=userSlice.actions;
 
-//selector
+// Selector to retrieve user state from the Redux store
 export const userSelector=(state)=>state.userReducer;

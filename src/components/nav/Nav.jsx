@@ -11,10 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions, signOutAsync, userSelector } from '../../redux/reducers/userReducers';
 import { toast } from 'react-toastify';
 function Nav(){
-   const [user,setUser]=useState(null);
-   const navigate = useNavigate();
-   const dispatch=useDispatch();
-  const {userID,errorMsg,successMsg}=useSelector(userSelector);
+  const [user,setUser]=useState(null); // State for user authentication status
+   const navigate = useNavigate(); // Initializing useNavigate hook for navigation
+   const dispatch=useDispatch(); // Initializing useDispatch hook to dispatch actions
+   const {userID,errorMsg,successMsg}=useSelector(userSelector); // Selecting userID, errorMsg, and successMsg from Redux store using userSelector
+    // useEffect to display success or error messages after authentication actions
   useEffect(()=>{
     if(successMsg){
         console.log("Success Msg Occuring!");
@@ -29,6 +30,7 @@ function Nav(){
     }
     // eslint-disable-next-line
     },[successMsg,errorMsg])
+    // useEffect to update user state based on userID changes
    useEffect(()=>{
    if(userID){
     setUser(userID);
@@ -72,7 +74,7 @@ function Nav(){
     </div>
   </div>
 </nav>
-<Outlet/>
+<Outlet/> {/* Outlet for rendering nested routes */}
 
         </>
     )

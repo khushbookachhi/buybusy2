@@ -12,17 +12,20 @@ import { fetchCartItems, productActions, productSelector } from '../../redux/red
 
 
 function Cart(){
-    const location=useLocation();
-    const [isCart,setIsCart]=useState("");
-    const [loading,setLoading]=useState(true);
-    const dispatch=useDispatch();
-    const {userID}=useSelector(userSelector);
-    const {cartItems,totalPrice,successMsg,errorMsg}=useSelector(productSelector);
+  const location=useLocation(); // Using the useLocation hook to get the current location
+  const [isCart,setIsCart]=useState(""); // State variable to track if the current page is the cart page
+  const [loading,setLoading]=useState(true); // State variable to track the loading state
+  const dispatch=useDispatch(); // useDispatch hook to dispatch actions
+  const {userID}=useSelector(userSelector); // Selector to get user ID from Redux store
+  const {cartItems,totalPrice,successMsg,errorMsg}=useSelector(productSelector); // Selectors to get cart items, total price, success and error messages from Redux store
     
+   // Effect to fetch cart items when component mounts
     useEffect(()=>{
      dispatch(fetchCartItems(userID));
      // eslint-disable-next-line
      },[])
+
+       // Effect to update isCart state and handle loading state
     useEffect(()=>{
       setIsCart(location.pathname);
       console.log(isCart);
@@ -34,6 +37,7 @@ function Cart(){
      // eslint-disable-next-line
      },[setIsCart,isCart,setLoading,loading])
       
+     // Effect to calculate total price and display error message if cart is empty
       useEffect(()=>{
          dispatch(productActions.addTotalPrice(cartItems));
          if(isCart && ( !cartItems ||cartItems.length<1)){
@@ -42,6 +46,7 @@ function Cart(){
         }
         // eslint-disable-next-line 
     },[cartItems,isCart])
+    // Effect to display success or error message on user actions
     useEffect(()=>{
       if(successMsg){
           console.log(successMsg);
